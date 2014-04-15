@@ -36,13 +36,12 @@ public class UserActivity {
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User createUser(@RequestParam(value = "socialId", required = true) String socialId,
-            @RequestParam(value = "userName", required = true) String userName, @RequestParam(
-                    value = "x", required = true) double x, @RequestParam(value = "y",
+            @RequestParam(value = "x", required = true) double x, @RequestParam(value = "y",
                     required = true) double y) {
         long currentTime = System.currentTimeMillis();
         User user =
-                new User(String.valueOf(IdUtils.generateUserId(socialId)), userName, currentTime,
-                        currentTime, x, y);
+                new User(String.valueOf(IdUtils.generateUserId(socialId)), socialId, currentTime,
+                        currentTime, new double[] {x, y});
         userDAO.create(user);
         return user;
     }
@@ -59,6 +58,16 @@ public class UserActivity {
         GeoResults<User> results = userDAO.listNear(x, y, DITANCE, DISTANCE_METRICS, limit);
         List<GeoResult<User>> lstContents = results.getContent();
         return Lists.transform(lstContents, GEO_TO_USER);
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public List<User> listAllUsers() {
+        return userDAO.listAll();
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    public void deleteAll() {
+        userDAO.deleteAll();
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)

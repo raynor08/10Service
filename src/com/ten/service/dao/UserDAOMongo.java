@@ -39,6 +39,12 @@ public class UserDAOMongo {
         return db.findAll(User.class, COLLECTION_NAME);
     }
 
+    public void deleteAll() {
+        for (User user : listAll()) {
+            db.remove(user, COLLECTION_NAME);
+        }
+    }
+
     public GeoResults<User> listNear(double x, double y, double distance, Metric distanceMetric,
             int limit) {
         NearQuery query =

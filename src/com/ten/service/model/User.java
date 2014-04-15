@@ -16,13 +16,12 @@ public class User {
     private long lastLoginTime;
 
     @PersistenceConstructor
-    public User(final String id, String userName, long createTime, long lastLoginTime, double x,
-            double y) {
+    public User(final String id, String userName, long createTime, long lastLoginTime, double[] location) {
         this.userName = userName;
         this.id = id;
         this.createTime = createTime;
         this.lastLoginTime = lastLoginTime;
-        this.location = new double[] {x, y};
+        this.location = location;
     }
 
     public long getCreateTime() {
