@@ -2,6 +2,7 @@ package com.ten.service.utils;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 
 public class IdUtils {
@@ -13,7 +14,14 @@ public class IdUtils {
      * @param key
      * @return
      */
-    public static long generateUserId(String key) {
-        return HASH.newHasher().putInt(key.length()).putString(key, Charsets.UTF_8).hash().asLong();
+    public static long generateUserId(String... keys) {
+        Hasher hasher = HASH.newHasher();
+
+        for (String key : keys) {
+            hasher.putInt(key.length()).putString(key, Charsets.UTF_8);
+        }
+        
+        return hasher.hash().asLong();
     }
+    
 }

@@ -75,4 +75,10 @@ public class UserDAOMongo {
         db.save(user);
         return user;
     }
+    
+    public User updateUser(User user) {
+        // Check if user exists first
+        db.save(user);
+        return user;
+    }
 }
